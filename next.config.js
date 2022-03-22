@@ -1,4 +1,5 @@
 const nextConfig = {
+  assetPrefix: '/1dv027-a1',
   basePath: '/1dv027-a1',
 }
 
