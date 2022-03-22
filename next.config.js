@@ -1,5 +1,5 @@
-const nextConfig = {
-  basePath: '/1dv027-a1'
-}
+// const nextConfig = {
+//   basePath: '/1dv027-a1'
+// }
 
-module.exports = nextConfig
+// module.exports = nextConfig
