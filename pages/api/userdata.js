@@ -23,7 +23,7 @@ export default async function handler(req, res) {
       }
     )
     userdataResponse = await userdataResponse.json()
-    errorThrower(userdataResponse)
+    errorThrower(userdataResponse, cookies)
 
     // If image exist, create a localImagePath and set it, otherwise create a localImagePath with empty value.
     // Also set userdataResponse.hasLocalImage to true or false.

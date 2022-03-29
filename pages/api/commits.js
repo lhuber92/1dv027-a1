@@ -22,7 +22,7 @@ export default async function handler(req, res) {
       }
     )
     eventsResponse1 = await eventsResponse1.json()
-    errorThrower(eventsResponse1)
+    errorThrower(eventsResponse1, cookies)
   
     // Fetch Event 101(including) - 120 (including). Gitlab defaults to 20 events per page.
     let eventsResponse2 = await fetch(
@@ -33,7 +33,7 @@ export default async function handler(req, res) {
       }
     )
     eventsResponse2 = await eventsResponse2.json()
-    errorThrower(eventsResponse2)
+    errorThrower(eventsResponse2, cookies)
   
     // Only get the 101:th event
     const lastEvent = eventsResponse2[0]
