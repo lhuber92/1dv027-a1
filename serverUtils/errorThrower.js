@@ -5,7 +5,6 @@
  */
 const errorThrower = (response) => {
   // Gitlab api error
-  console.log(response)
   if (response?.message === '401 Unauthorized') { throw new Error(userdataResponse.message) }
 }
 
