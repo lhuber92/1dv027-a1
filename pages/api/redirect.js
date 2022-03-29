@@ -29,7 +29,7 @@ export default async function handler(req, res) {
     const username = userDetails.email.substring(0, 7)
     
     cookieSetter(req, res, accessTokenResponse.access_token, username)
-    res.redirect(307, process.env.BASE_URL) 
+    res.end(200) 
   } catch (error) {
     console.log('bbbbbbbbb')
     console.log(error)
