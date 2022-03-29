@@ -37,6 +37,12 @@ const Navbar = ({logInAction, logOutAction, imagePath, isLoaded, siteTitle}) => 
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
 
+  React.useEffect(() => {
+    console.log('fired')
+    console.log(isLoaded)
+    console.log(imagePath)
+  }), [isLoaded, imagePath]
+
   /**
    * Activates the passed logInAction
    */
