@@ -24,7 +24,6 @@ export default function Layout({ staticProps, error, isLoggedIn, isHome, childre
    * The returned object will persist for the full lifetime of the component.
    * https://reactjs.org/docs/hooks-reference.html#useref
    */
-  const componentMounted = React.useRef(true);
   const siteTitle = "Gitlabber"
   const router = useRouter()
 

@@ -39,6 +39,7 @@ const Navbar = ({logInAction, logOutAction, siteTitle, staticProps}) => {
 
   const [imagePath, setImagePath] = React.useState(false)
   const [isLoaded, setIsLoaded] = React.useState(false)
+  const componentMounted = React.useRef(true);
 
   React.useEffect(() => {
     async function fetchMyAPI() {
