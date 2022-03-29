@@ -42,6 +42,7 @@ const Navbar = ({logInAction, logOutAction, siteTitle, staticProps, userdata}) =
   const componentMounted = React.useRef(true);
 
   React.useEffect(() => {
+    console.log('dasdads')
     async function fetchMyAPI() {
       const response = await apiClient(staticProps.baseUrl + apiRoutes.USERDATA).request()
 
@@ -54,6 +55,8 @@ const Navbar = ({logInAction, logOutAction, siteTitle, staticProps, userdata}) =
         setIsLoaded(true);
       }
     }
+
+    console.log(userdata)
     if (!userdata) {
       fetchMyAPI()
     } else {setImagePath(userdata.imagePath)
@@ -61,7 +64,7 @@ const Navbar = ({logInAction, logOutAction, siteTitle, staticProps, userdata}) =
     }
 
     return () => { componentMounted.current = false }
-  })
+  }), [userdata]
 
   /**
    * Activates the passed logInAction
