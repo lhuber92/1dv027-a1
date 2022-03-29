@@ -9,7 +9,7 @@ import Cookies from 'cookies'
  */
 const errorSender = (error, req, res) => {
   const cookies = new Cookies(req, res)
-  if (!cookies.get('accessToken') || error?.message === '401 Unauthorized') {
+  if (!cookies.get('accessToken') || !cookies.get('username') || error?.message === '401 Unauthorized') {
     res.status(401).json({
       errorCode: 401,
       errorMessage: 'Login required.',

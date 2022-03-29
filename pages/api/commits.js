@@ -1,5 +1,4 @@
 import Cookies from 'cookies'
-import cookieSetter from '../../serverUtils/cookieSetter.js';
 import errorSender from '../../serverUtils/errorSender.js';
 import errorThrower from '../../serverUtils/errorThrower.js';
 
