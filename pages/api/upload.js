@@ -29,7 +29,7 @@ export default async function handler (req, res) {
     await new Promise((resolve, reject) => {
       const form = new IncomingForm()
       form.parse(req, (err, fields, files) => {
-          if (err) return reject(err)
+          if (err || !files?.file?.filepath) return reject(err)
           const oldPath = files.file.filepath;
           const newPath = `./public/uploads/${username}.jpeg`;
           mv(oldPath, newPath, function(err) {});
