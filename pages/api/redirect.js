@@ -19,8 +19,7 @@ export default async function handler(req, res) {
       `https://gitlab.lnu.se/oauth/token?client_id=${process.env.APP_ID}&client_secret=${process.env.APP_SECRET}&code=${req.query.code}&grant_type=authorization_code&redirect_uri=${process.env.REDIRECT_URL}`,
       { method: 'POST' }
     )
-    accessTokenRespo
-    nse = await accessTokenResponse.json()
+    accessTokenResponse = await accessTokenResponse.json()
     console.log('aaaaaaaaaaaaaaaa')
     console.log(accessTokenResponse)
     errorThrower(accessTokenResponse)
