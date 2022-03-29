@@ -3,21 +3,9 @@ import Layout from '../components/layout'
 import utilStyles from '../styles/utils.module.css'
 import React from "react";
 import apiClient from '../publicUtils/apiClient';
-import messages from '../config/messages'
 import apiRoutes from '../config/apiRoutes';
+import ActivityTable from '../components/activityTable'
 
-/*
-  "Currently there is no way to globally hydrate data for an entire application,
-  other than using getInitialProps in _app.js which unfortunately then disables
-  automatic static optimization"
-  https://github.com/vercel/next.js/discussions/16684
-
-  "getStaticProps only runs on the server-side. It will never run on the client-side.
-  It won’t even be included in the JS bundle for the browser.
-  That means you can write code such as direct database queries without them
-  being sent to browsers."
-  https://nextjs.org/learn/basics/data-fetching/getstaticprops-details
-*/
 /**
  * Gets properties from the server-side.
  * 
@@ -34,28 +22,26 @@ export async function getStaticProps() {
 }
 
 /**
- * The home page.
+ * The /activities page.
  * 
  * @param {object} props - An object with properties from the server-side.
  * 
  * @returns - A react functional component
  */
-export default function Home(props) {
+export default function Activities(props) {
   const componentMounted = React.useRef(true); // Used to check if the component is mounted.
   const [error, setError] = React.useState()
   const [isLoggedIn, setIsLoggedIn] = React.useState(false)
+  const [activityData, setActivityData] = React.useState(false)
 
   React.useEffect(() => {
     async function fetchMyAPI() {
       const response = await apiClient(props.baseUrl + apiRoutes.COMMITS).request()
 
       if (componentMounted.current) {
-        if (response.error) { 
-          if (response.error !== messages.LOGIN_MESSAGE) { // Don't show login-error on home-page
-            setError(response.error);
-          }
-          return
-        }
+        if (response.error) { return setError(response.error) }
+        
+        setActivityData(await response.json())
         setIsLoggedIn(true)
       }
     }
@@ -68,9 +54,11 @@ export default function Home(props) {
   })
 
   return (
-    <Layout staticProps={props} error={error} isLoggedIn={isLoggedIn} isHome={true}>
-      <section className={utilStyles.headingMd}>Home</section>
-      <p>Welcome to Gitlabber! Please use the menu above to navigate :)</p>
+    <Layout staticProps={props} error={error} isLoggedIn={isLoggedIn}>
+      <section className={utilStyles.headingMd}>
+        <p>Activities</p>
+        {activityData && (<ActivityTable activityData={activityData} />)}
+      </section>
     </Layout>
   )
 }

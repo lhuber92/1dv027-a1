@@ -1,16 +1,77 @@
+import React from "react";
 import Head from 'next/head'
 import Image from 'next/image'
 import styles from './layout.module.css'
-import utilStyles from '../styles/utils.module.css'
-import Link from 'next/link'
+import Navbar from './navbar.js'
+import { useRouter } from 'next/router'
+import apiClient from '../publicUtils/apiClient';
+import apiRoutes from "../config/apiRoutes";
 
-const name = 'Your Name'
-export const siteTitle = 'Next.js Sample Website'
+/**
+ * Wraps the header, navbar and child components in a unified layout.
+ * 
+ * @param {object} staticProps - Properties fetched from the server. Includes appId, redirectUrl, baseUrl. For more info, se page files.
+ * @param {object} error - Containing an error message (if present).
+ * @param {boolean} isLoggedIn - Indicating whether user is logged in or not.
+ * @param {boolean} isHome - Indicating whether the layout is wrapping the home-page
+ * @param {object} children - Page compoents (react components)
+ * @returns - A react component
+ */
+export default function Layout({ staticProps, error, isLoggedIn, isHome, children }) {
+  /**
+   * Here useRef is used to keep track on if the component is unmounted or not, to prevent memory leaks.
+   * useRef returns a mutable ref object whose .current property is initialized to the passed argument (initialValue).
+   * The returned object will persist for the full lifetime of the component.
+   * https://reactjs.org/docs/hooks-reference.html#useref
+   */
+  const componentMounted = React.useRef(true);
+  const siteTitle = "Gitlabber"
+  const router = useRouter()
+  const [imagePath, setImagePath] = React.useState(false)
+  const [isLoaded, setIsLoaded] = React.useState(false)
 
-export default function Layout({ children, home }) {
+  /**
+   * Sends the user to GitLab's login page.
+   * More info: https://docs.gitlab.com/ee/api/oauth2.html#authorization-code-flow
+   */
+  const logIn = async () => {
+    const state = Math.random().toString(36).substring(2, 15);
+    const authURL = `https://gitlab.lnu.se/oauth/authorize?client_id=${staticProps.appId}&redirect_uri=${staticProps.redirectUrl}&response_type=code&state=${state}&scope=api+read_user+read_api+read_repository+write_repository+read_registry+write_registry+sudo+openid+profile+email`
+    router.push(authURL)
+  }
+
+  /**
+   * Let's the user log out from the application by removing cookies.
+   * 
+   * @returns - Redirect to front-page
+   */
+  const logOut = async () => {
+    const response = await apiClient(staticProps.baseUrl + apiRoutes.LOGOUT).request()
+    if (response.error) { return setError(response.error) }
+    window.location.replace('/')
+  }
+
+  React.useEffect(() => {
+    async function fetchMyAPI() {
+      const response = await apiClient(staticProps.baseUrl + apiRoutes.USERDATA).request()
+
+      if (componentMounted.current) {
+        if (response.error) {  setImagePath(false); setIsLoaded(true); return }
+        
+        const userdata = await response.json()
+        setImagePath(userdata.imagePath)
+        setIsLoaded(true);
+      }
+    }
+    fetchMyAPI()
+
+    return () => { componentMounted.current = false }
+  })
+
   return (
     <div className={styles.container}>
       <Head>
+        <title>{siteTitle}</title>
         <link rel="icon" href="/favicon.ico" />
         <meta
           name="description"
@@ -25,49 +86,11 @@ export default function Layout({ children, home }) {
         <meta name="og:title" content={siteTitle} />
         <meta name="twitter:card" content="summary_large_image" />
       </Head>
-      <header className={styles.header}>
-        {home ? (
-          <>
-            <Image
-              priority
-              src="/images/profile.jpg"
-              className={utilStyles.borderCircle}
-              height={144}
-              width={144}
-              alt={name}
-            />
-            <h1 className={utilStyles.heading2Xl}>{name}</h1>
-          </>
-        ) : (
-          <>
-            <Link href="/">
-              <a>
-                <Image
-                  priority
-                  src="/images/profile.jpg"
-                  className={utilStyles.borderCircle}
-                  height={108}
-                  width={108}
-                  alt={name}
-                />
-              </a>
-            </Link>
-            <h2 className={utilStyles.headingLg}>
-              <Link href="/">
-                <a className={utilStyles.colorInherit}>{name}</a>
-              </Link>
-            </h2>
-          </>
-        )}
-      </header>
-      <main>{children}</main>
-      {!home && (
-        <div className={styles.backToHome}>
-          <Link href="/">
-            <a>← Back to home</a>
-          </Link>
-        </div>
-      )}
+      <Navbar logInAction={logIn} logOutAction={logOut} imagePath={imagePath} isLoaded={isLoaded} siteTitle={siteTitle} />
+      <p className={styles.mainError}>{error}</p>
+      <main className={styles.main}>
+        {(isLoggedIn || isHome) && ( <>{children}</> )}
+      </main>
     </div>
   )
 }

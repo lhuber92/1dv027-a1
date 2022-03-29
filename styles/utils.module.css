@@ -21,7 +21,7 @@
 }
 
 .headingMd {
-  font-size: 1.2rem;
+  font-size: 2.2rem;
   line-height: 1.5;
 }
 
@@ -49,4 +49,35 @@
 
 .lightText {
   color: #666;
+}
+
+.loginButton {
+  margin-top: 16px;
+  color: 'white';
+  display: 'block';
+  border-color: 'white';
+}
+
+.loginButton:hover {
+  background-color: 'white' !important;
+}
+
+.profileLogo {
+  display: flex;
+  justify-content: center;
+}
+
+.profileHeader {
+  display: flex;
+  justify-content: center;
+}
+
+.profileLogoInner {
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
+  vertical-align: initial;
+  flex-direction: column;
+  font-size: 2.2rem;
+  line-height: 1.5;
 }
