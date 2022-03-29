@@ -47,7 +47,6 @@ export default function Layout({ staticProps, error, isLoggedIn, isHome, childre
    */
   const logOut = async () => {
     const response = await apiClient(staticProps.baseUrl + apiRoutes.LOGOUT).request()
-    if (response.error) { return setError(response.error) }
     window.location.replace('/')
   }
 
