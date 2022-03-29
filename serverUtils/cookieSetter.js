@@ -17,7 +17,7 @@ const cookieSender = (req, res, accessToken, username) => {
     httpOnly: true,
     secure: process.env.ENVIRONMENT !== "development",
     maxAge: 7200000, // 2 hours
-    sameSite: "strict",
+    sameSite: "lax",
     path: "/"
   })
 
@@ -25,7 +25,7 @@ const cookieSender = (req, res, accessToken, username) => {
     httpOnly: true,
     secure: process.env.ENVIRONMENT !== "development",
     maxAge: 7200000,
-    sameSite: "strict",
+    sameSite: "lax",
     path: "/"
   })
 }
