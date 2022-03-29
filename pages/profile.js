@@ -51,7 +51,7 @@ export default function Profile(props) {
   const componentMounted = React.useRef(true); // Used to check if the component is mounted.
   const [error, setError] = React.useState()
   const [isLoggedIn, setIsLoggedIn] = React.useState(false)
-  const [userdata, setUserdata] = React.useState()
+  const [userdata, setUserdata] = React.useState(false)
 
   /**
    * Takes an input file and uploads it to the local storage.
@@ -102,16 +102,12 @@ export default function Profile(props) {
   })
 
   return (
-    <Layout staticProps={props} error={error} isLoggedIn={isLoggedIn}>
+    <Layout staticProps={props} error={error} isLoggedIn={isLoggedIn} userdata={userdata}>
       <section className={utilStyles.headingMd}>
         {userdata && (
           <Box sx={{ flexGrow: 1 }}>
             <Grid container spacing={2}>
               <Grid item xs={8} className={utilStyles.profileHeader}>
-                {/* <Avatar sx={{ width: 100, height: 100 }} alt="profile" src="/images/profile.jpg" />
-                <p>{userData.username}</p> */}
-                {/* <Avatar alt="profile" src="/images/profile.jpg" /> */}
-                {/* <p>{userData.username}</p> */}
                 <Item className={utilStyles.profileLogoInner}>
                   {userdata.name}
                 </Item>

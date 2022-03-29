@@ -17,7 +17,7 @@ import apiRoutes from "../config/apiRoutes";
  * @param {object} children - Page compoents (react components)
  * @returns - A react component
  */
-export default function Layout({ staticProps, error, isLoggedIn, isHome, children }) {
+export default function Layout({ staticProps, error, isLoggedIn, isHome, children, userdata = false }) {
   /**
    * Here useRef is used to keep track on if the component is unmounted or not, to prevent memory leaks.
    * useRef returns a mutable ref object whose .current property is initialized to the passed argument (initialValue).
@@ -65,7 +65,7 @@ export default function Layout({ staticProps, error, isLoggedIn, isHome, childre
         <meta name="og:title" content={siteTitle} />
         <meta name="twitter:card" content="summary_large_image" />
       </Head>
-      <Navbar logInAction={logIn} logOutAction={logOut} siteTitle={siteTitle} staticProps={staticProps } />
+      <Navbar logInAction={logIn} logOutAction={logOut} siteTitle={siteTitle} staticProps={staticProps} userdata={userdata} />
       <p className={styles.mainError}>{error}</p>
       <main className={styles.main}>
         {(isLoggedIn || isHome) && ( <>{children}</> )}

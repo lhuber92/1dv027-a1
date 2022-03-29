@@ -32,7 +32,7 @@ const pages = [
  * @param {string} siteTitle - The title of the page
  * @returns - A react component
  */
-const Navbar = ({logInAction, logOutAction, siteTitle, staticProps}) => {
+const Navbar = ({logInAction, logOutAction, siteTitle, staticProps, userdata}) => {
   // Used by materialUI for opening side-bar and the menu of the user-profile photo
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
@@ -54,7 +54,11 @@ const Navbar = ({logInAction, logOutAction, siteTitle, staticProps}) => {
         setIsLoaded(true);
       }
     }
-    fetchMyAPI()
+    if (!userdata) {
+      fetchMyAPI()
+    } else {setImagePath(userdata.imagePath)
+      setIsLoaded(true);
+    }
 
     return () => { componentMounted.current = false }
   })
