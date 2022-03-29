@@ -32,16 +32,31 @@ const pages = [
  * @param {string} siteTitle - The title of the page
  * @returns - A react component
  */
-const Navbar = ({logInAction, logOutAction, imagePath, isLoaded, siteTitle}) => {
+const Navbar = ({logInAction, logOutAction, siteTitle}) => {
   // Used by materialUI for opening side-bar and the menu of the user-profile photo
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
 
+  const [imagePath, setImagePath] = React.useState(false)
+  const [isLoaded, setIsLoaded] = React.useState(false)
+
   React.useEffect(() => {
-    console.log('fired')
-    console.log(isLoaded)
-    console.log(imagePath)
-  }), [isLoaded, imagePath]
+    async function fetchMyAPI() {
+      const response = await apiClient(staticProps.baseUrl + apiRoutes.USERDATA).request()
+
+      if (componentMounted.current) {
+        if (response.error) {  setImagePath(false); setIsLoaded(true); return }
+        
+        console.log('setting ...')
+        const userdata = await response.json()
+        setImagePath(userdata.imagePath)
+        setIsLoaded(true);
+      }
+    }
+    fetchMyAPI()
+
+    return () => { componentMounted.current = false }
+  })
 
   /**
    * Activates the passed logInAction

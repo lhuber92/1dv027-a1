@@ -27,8 +27,6 @@ export default function Layout({ staticProps, error, isLoggedIn, isHome, childre
   const componentMounted = React.useRef(true);
   const siteTitle = "Gitlabber"
   const router = useRouter()
-  const [imagePath, setImagePath] = React.useState(false)
-  const [isLoaded, setIsLoaded] = React.useState(false)
 
   /**
    * Sends the user to GitLab's login page.
@@ -50,23 +48,6 @@ export default function Layout({ staticProps, error, isLoggedIn, isHome, childre
     window.location.replace('/')
   }
 
-  React.useEffect(() => {
-    async function fetchMyAPI() {
-      const response = await apiClient(staticProps.baseUrl + apiRoutes.USERDATA).request()
-
-      if (componentMounted.current) {
-        if (response.error) {  setImagePath(false); setIsLoaded(true); return }
-        
-        const userdata = await response.json()
-        setImagePath(userdata.imagePath)
-        setIsLoaded(true);
-      }
-    }
-    fetchMyAPI()
-
-    return () => { componentMounted.current = false }
-  })
-
   return (
     <div className={styles.container}>
       <Head>
@@ -85,7 +66,7 @@ export default function Layout({ staticProps, error, isLoggedIn, isHome, childre
         <meta name="og:title" content={siteTitle} />
         <meta name="twitter:card" content="summary_large_image" />
       </Head>
-      <Navbar logInAction={logIn} logOutAction={logOut} imagePath={imagePath} isLoaded={isLoaded} siteTitle={siteTitle} />
+      <Navbar logInAction={logIn} logOutAction={logOut} siteTitle={siteTitle} />
       <p className={styles.mainError}>{error}</p>
       <main className={styles.main}>
         {(isLoggedIn || isHome) && ( <>{children}</> )}
