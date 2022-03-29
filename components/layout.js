@@ -66,7 +66,7 @@ export default function Layout({ staticProps, error, isLoggedIn, isHome, childre
         <meta name="og:title" content={siteTitle} />
         <meta name="twitter:card" content="summary_large_image" />
       </Head>
-      <Navbar logInAction={logIn} logOutAction={logOut} siteTitle={siteTitle} />
+      <Navbar logInAction={logIn} logOutAction={logOut} siteTitle={siteTitle} staticProps={staticProps } />
       <p className={styles.mainError}>{error}</p>
       <main className={styles.main}>
         {(isLoggedIn || isHome) && ( <>{children}</> )}
