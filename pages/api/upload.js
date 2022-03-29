@@ -7,7 +7,6 @@ const mv = require('mv');
 export const config = {
     api: {
        bodyParser: false,
-       sizeLimit: '25mb',
     }
 };
 
@@ -29,7 +28,6 @@ export default async function handler (req, res) {
     // Save the provided image
     await new Promise((resolve, reject) => {
       const form = new IncomingForm()
-      form.maxFieldsSize = 25 * 1024 * 1024
       form.parse(req, (err, fields, files) => {
           if (err || !files?.file?.filepath) return reject(err)
           const oldPath = files.file.filepath;

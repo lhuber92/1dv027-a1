@@ -126,6 +126,7 @@ export default function Profile(props) {
                       <DeleteIcon fontSize="small" />
                     </IconButton>
                   )}
+                  <p>Max file size: 1 mb</p>
                 </Item>
               </Grid>
               <Grid item xs={12}>
