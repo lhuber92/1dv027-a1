@@ -61,7 +61,7 @@ const Navbar = ({logInAction, logOutAction, siteTitle, staticProps, userdata}) =
     }
 
     return () => { componentMounted.current = false }
-  }), [userdata, staticProps.baseUrl]
+  }, [userdata])
 
   /**
    * Activates the passed logInAction

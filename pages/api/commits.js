@@ -43,7 +43,6 @@ export default async function handler(req, res) {
 
     res.status(200).json(eventsResponse1)
   } catch (error) {
-    console.log(error)
     errorSender(error, req, res)
   }
 }
