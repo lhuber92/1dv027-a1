@@ -13,12 +13,16 @@ import errorThrower from '../../serverUtils/errorThrower.js';
  */
 export default async function handler(req, res) {
   try {
+    console.log('ddddddddddddddddddddddddddd')
     // Get the access token, with help of "code"
     let accessTokenResponse = await fetch(
       `https://gitlab.lnu.se/oauth/token?client_id=${process.env.APP_ID}&client_secret=${process.env.APP_SECRET}&code=${req.query.code}&grant_type=authorization_code&redirect_uri=${process.env.REDIRECT_URL}`,
       { method: 'POST' }
     )
-    accessTokenResponse = await accessTokenResponse.json()
+    accessTokenRespo
+    nse = await accessTokenResponse.json()
+    console.log('aaaaaaaaaaaaaaaa')
+    console.log(accessTokenResponse)
     errorThrower(accessTokenResponse)
     
     // Get user details with help of the id_token provided in accessTokenResponse
@@ -28,6 +32,8 @@ export default async function handler(req, res) {
     cookieSetter(req, res, accessTokenResponse.access_token, username)
     res.redirect(307, process.env.BASE_URL) 
   } catch (error) {
+    console.log('bbbbbbbbb')
+    console.log(error)
     errorSender(error, req, res)
   }
 }
