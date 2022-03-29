@@ -6,7 +6,7 @@ const mv = require('mv');
 
 export const config = {
     api: {
-       bodyParser: false,
+       bodyParser: true,
        sizeLimit: '25mb',
     }
 };
