@@ -36,7 +36,8 @@ export default async function handler(req, res) {
     const localImagePath = `./public/uploads/default.jpeg`
     const fileExists = await checkFileExists(localImagePath)
     if (fileExists) {
-      userdataResponse.imagePath = `/uploads/${cookies.get('username')}.jpeg`
+      // userdataResponse.imagePath = `/uploads/${cookies.get('username')}.jpeg`
+      userdataResponse.imagePath = `/uploads/default.jpeg`
       userdataResponse.hasLocalImage = true
     } else {
       userdataResponse.imagePath = userdataResponse.avatar_url
