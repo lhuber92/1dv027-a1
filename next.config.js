@@ -34,13 +34,5 @@ module.exports = {
         ]
       }
     ]
-  },
-  async rewrites() {
-    return [
-      {
-        source: '/api/redirect',
-        destination: 'https://hippohelp-logic-staging.shimmershot.com/api/redirect' // Proxy to Backend
-      }
-    ]
   }
 };
