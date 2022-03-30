@@ -39,7 +39,7 @@ module.exports = {
     return [
       {
         source: '/api/:path*',
-        destination: 'https://hippohelp-logic-staging.shimmershot.com/api/:path*' // Proxy to Backend
+        destination: 'https://hippohelp-logic-staging.shimmershot.com' // Proxy to Backend
       }
     ]
   }
