@@ -33,7 +33,7 @@ export default function Layout({ staticProps, error, isLoggedIn, isHome, childre
    */
   const logIn = async () => {
     const state = Math.random().toString(36).substring(2, 15);
-    const authURL = `https://gitlab.lnu.se/oauth/authorize?client_id=${staticProps.appId}&redirect_uri=${staticProps.redirectUrl}&response_type=code&state=${state}&scope=api+read_user+read_api+read_repository+write_repository+read_registry+write_registry+sudo+openid+profile+email`
+    const authURL = `https://gitlab.lnu.se/oauth/authorize?client_id=${staticProps.appId}&redirect_uri=${staticProps.redirectUrl}&response_type=code&state=${state}&scope=read_user+openid`
     router.push(authURL)
   }
 
