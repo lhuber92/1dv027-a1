@@ -28,6 +28,7 @@ export default async function handler(req, res) {
     cookieSetter(req, res, accessTokenResponse.access_token, username)
     res.redirect(307, process.env.BASE_URL) 
   } catch (error) {
+    console.log(error)
     errorSender(error, req, res)
   }
 }
