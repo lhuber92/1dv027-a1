@@ -31,7 +31,24 @@ export default async function handler (req, res) {
       form.parse(req, (err, fields, files) => {
           if (err || !files?.file?.filepath) return reject(err)
           const oldPath = files.file.filepath;
-          const newPath = `./public/uploads/${username}.jpeg`;
+          // const newPath = `./public/uploads/${username}.jpeg`;
+
+          // Important!
+          // Note from nextJS:
+          // **Note**: Only assets that are in the `public` directory at [build time](/docs/api-reference/cli.md#build)
+          // will be served by Next.js. Files added to the directory after build time won't be
+          // discoverable until your code is rebuilt. We recommend using a third party service like 
+          // [AWS S3](https://aws.amazon.com/s3/) for persistant file storage.
+
+          // Since the app needs to be rebuilt (npm run build) every time to discover any new files put in the /public
+          // folder uploading images there isn't viable. If this was a live app I would here send a fetch request
+          // with the image to a third party image storage provider instead.
+          // To make the app usable for demonstration purposes there was already a "default.jpeg" file in the public folder
+          // at build-time. So when uploading an image NextJS will find default.jpeg. When deleting an image it will also
+          // notice that nothing is there. The only issue with this is if we have multiple users. They would all share the same
+          // image. So deleting / changing it would affect the next user.
+          // More info here (see line 27): https://github.com/vercel/next.js/pull/17203/commits/572345f0d59fbfa30fa7538b0cffd69e152959d6
+          const newPath = './public/uploads/default.jpeg'
           mv(oldPath, newPath, function(err) {});
           res.status(200).json({ newPath })
       })
