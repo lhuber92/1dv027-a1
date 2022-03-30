@@ -48,6 +48,11 @@ export default async function handler (req, res) {
           // notice that nothing is there. The only issue with this is if we have multiple users. They would all share the same
           // image. So deleting / changing it would affect the next user.
           // More info here (see line 27): https://github.com/vercel/next.js/pull/17203/commits/572345f0d59fbfa30fa7538b0cffd69e152959d6
+          //
+          // Example usage for sending to a third party:
+          // const data = new FormData();
+          // data.append("nextJSImage", files.file)
+          // const response = await fetch('https://imageservice', { method: "POST", data })
           const newPath = './public/uploads/default.jpeg'
           mv(oldPath, newPath, function(err) {});
           res.status(200).json({ newPath })
