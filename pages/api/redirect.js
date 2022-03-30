@@ -22,15 +22,12 @@ export default async function handler(req, res) {
     errorThrower(accessTokenResponse)
     
     // Get user details with help of the id_token provided in accessTokenResponse
-    console.log(accessTokenResponse)
     const userDetails = jwt_decode(accessTokenResponse.id_token)
-    console.log(userDetails)
     const username = userDetails.email.substring(0, 7)
     
     cookieSetter(req, res, accessTokenResponse.access_token, username)
     res.redirect(307, process.env.BASE_URL) 
   } catch (error) {
-    console.log(error)
     errorSender(error, req, res)
   }
 }
