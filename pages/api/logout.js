@@ -16,7 +16,7 @@ export default async function handler(req, res) {
     cookies.set("accessToken")
     cookies.set("username")
 
-    res.redirect(307, 'http://localhost:3000/') 
+    res.redirect(307, process.env.BASE_URL) 
   } catch (error) {
     errorSender(error, req, res)
   }

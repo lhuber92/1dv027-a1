@@ -5,6 +5,7 @@ import React from "react";
 import apiClient from '../publicUtils/apiClient';
 import messages from '../config/messages'
 import apiRoutes from '../config/apiRoutes';
+import { useRouter } from 'next/router'
 
 /*
   "Currently there is no way to globally hydrate data for an entire application,
@@ -44,6 +45,8 @@ export default function Home(props) {
   const componentMounted = React.useRef(true); // Used to check if the component is mounted.
   const [error, setError] = React.useState()
   const [isLoggedIn, setIsLoggedIn] = React.useState(false)
+  const router = useRouter()
+  console.log(router.query);
 
   React.useEffect(() => {
     async function fetchMyAPI() {
@@ -59,13 +62,18 @@ export default function Home(props) {
         setIsLoggedIn(true)
       }
     }
-    fetchMyAPI()
+  
+    if (router.query?.rejected) {
+      setError(messages.REJECTED_MESSAGE)
+    } else {
+      fetchMyAPI()
+    }
 
     // Inspiration found here:
     // https://stackoverflow.com/questions/54954385/react-useeffect-causing-cant-perform-a-react-state-update-on-an-unmounted-comp
     // This code runs when component is unmounted. Cleanup function to prevent memory leak.
     return () => { componentMounted.current = false }
-  })
+  }, [router.query.rejected, props.baseUrl])
 
   return (
     <Layout staticProps={props} error={error} isLoggedIn={isLoggedIn} isHome={true}>

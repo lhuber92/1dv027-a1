@@ -13,6 +13,7 @@ import UploadIcon from '@mui/icons-material/Upload';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { styled } from '@mui/material/styles';
 
+
 /**
  * Gets properties from the server-side.
  * 

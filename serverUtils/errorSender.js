@@ -8,8 +8,14 @@ import Cookies from 'cookies'
  * @param {object} res - NextJS HTTP response object
  */
 const errorSender = (error, req, res) => {
+  console.log('errorSender line 12:')
+  console.log(error)
+  console.log(error.message)
   const cookies = new Cookies(req, res)
-  if (!cookies.get('accessToken') || !cookies.get('username') || error?.message === '401 Unauthorized') {
+  if (error.message === "Invalid token specified") {
+    console.log('asddasdsadsa')
+    res.redirect(307, process.env.BASE_URL + '/?rejected=true')
+  } else if (!cookies.get('accessToken') || !cookies.get('username') || error?.message === '401 Unauthorized') {
     res.status(401).json({
       errorCode: 401,
       errorMessage: 'Login required.',

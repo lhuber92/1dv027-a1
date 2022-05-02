@@ -23,23 +23,27 @@ export default async function handler(req, res) {
     )
     eventsResponse1 = await eventsResponse1.json()
     errorThrower(eventsResponse1, cookies)
-  
-    // Fetch Event 101(including) - 120 (including). Gitlab defaults to 20 events per page.
-    let eventsResponse2 = await fetch(
-      `https://gitlab.lnu.se/api/v4/users/${cookies.get('username')}/events?page=6`,
-      { 
-        method: 'GET',
-        headers: { 'Authorization': 'Bearer ' + cookies.get('accessToken') }
-      }
-    )
-    eventsResponse2 = await eventsResponse2.json()
-    errorThrower(eventsResponse2, cookies)
-  
-    // Only get the 101:th event
-    const lastEvent = eventsResponse2[0]
     
-    // Push the 101:th event into the array of the first 100 events
-    eventsResponse1.push(lastEvent)
+    // Only try fetching the 101:th event if the first 100 could be fetched.
+    if (eventsResponse1.length === 100) {
+      // Fetch Event 101(including) - 120 (including). Gitlab defaults to 20 events per page.
+      let eventsResponse2 = await fetch(
+        `https://gitlab.lnu.se/api/v4/users/${cookies.get('username')}/events?page=6`,
+        { 
+          method: 'GET',
+          headers: { 'Authorization': 'Bearer ' + cookies.get('accessToken') }
+        }
+      )
+      eventsResponse2 = await eventsResponse2.json()
+      errorThrower(eventsResponse2, cookies)
+
+      // Only get the 101:th event
+      const lastEvent = eventsResponse2[0]
+      if (eventsResponse2[0]) {
+        // Push the 101:th event into the array of the first 100 events
+        eventsResponse1.push(lastEvent)
+      }
+    }
 
     res.status(200).json(eventsResponse1)
   } catch (error) {
