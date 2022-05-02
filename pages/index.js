@@ -46,7 +46,6 @@ export default function Home(props) {
   const [error, setError] = React.useState()
   const [isLoggedIn, setIsLoggedIn] = React.useState(false)
   const router = useRouter()
-  console.log(router.query);
 
   React.useEffect(() => {
     async function fetchMyAPI() {
