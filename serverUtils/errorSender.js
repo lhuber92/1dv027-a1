@@ -11,6 +11,13 @@ const errorSender = (error, req, res) => {
   console.log('errorSender line 12:')
   console.log(error)
   console.log(error.message)
+  if (error.type === 'invalid-json') {
+    console.log('-------------- JSON ERROR --------------')
+    console.log('-------------- RES: --------------------')
+    console.log(res)
+    console.log('-------------- REQ ---------------------')
+    console.log(req)
+  }
   const cookies = new Cookies(req, res)
   if (error.message === "Invalid token specified") {
     console.log('asddasdsadsa')
