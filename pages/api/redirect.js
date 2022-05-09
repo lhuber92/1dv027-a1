@@ -21,11 +21,18 @@ export default async function handler(req, res) {
     accessTokenResponse = await accessTokenResponse.json()
     errorThrower(accessTokenResponse)
     
-    // Get user details with help of the id_token provided in accessTokenResponse
-    const userDetails = jwt_decode(accessTokenResponse.id_token)
-    const username = userDetails.email.substring(0, 7)
+    // Done in order to get the username
+    let userDetailsResponse = await fetch(
+      'https://gitlab.lnu.se/api/v4/user/',
+      { 
+        method: 'GET',
+        headers: { 'Authorization': 'Bearer ' + accessTokenResponse.access_token }
+      }
+    )
+    userDetailsResponse = await userDetailsResponse.json()
+    errorThrower(userDetailsResponse)
     
-    cookieSetter(req, res, accessTokenResponse.access_token, username)
+    cookieSetter(req, res, accessTokenResponse.access_token, userDetailsResponse.username)
     res.redirect(307, process.env.BASE_URL) 
   } catch (error) {
     errorSender(error, req, res)

@@ -26,7 +26,6 @@ const apiClient = (url, config = {}) => {
       if (!result.ok) { return conditionalError(result) }
       return result
     } catch (error) {
-      console.log('adsadsdads')
       return { error: messages.STANDARD_ERROR_MESSAGE }
     }
   }

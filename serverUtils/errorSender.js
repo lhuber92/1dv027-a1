@@ -20,7 +20,6 @@ const errorSender = (error, req, res) => {
   }
   const cookies = new Cookies(req, res)
   if (error.message === "Invalid token specified") {
-    console.log('asddasdsadsa')
     res.redirect(307, process.env.BASE_URL + '/?rejected=true')
   } else if (!cookies.get('accessToken') || !cookies.get('username') || error?.message === '401 Unauthorized') {
     res.status(401).json({
