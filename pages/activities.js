@@ -5,7 +5,6 @@ import React from "react";
 import apiClient from '../publicUtils/apiClient';
 import apiRoutes from '../config/apiRoutes';
 import ActivityTable from '../components/activityTable'
-import messages from '../config/messages';
 
 /**
  * Gets properties from the server-side.
